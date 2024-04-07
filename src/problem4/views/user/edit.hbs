@@ -1,0 +1,196 @@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places" defer></script>
+
+
+{{!-- loading --}}
+<div id="loading-circle" class="hidden" style="
+    position: fixed;
+    {{!-- top: 50%;
+    right: 45%; --}}
+    width:100%;
+    height: 100%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(148, 147, 147, 0.5);
+    border-radius: 10px;
+    padding: 20px;
+    z-index: 1000;
+  ">
+  <div class="spinner" style="
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-left: 4px solid #3498db;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    "></div>
+</div>
+
+<div>
+
+  <div class="page-wrapper">
+
+    <div class="container-fluid">
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card card-body">
+            <h4 class="card-title">Sửa chi nhánh</h4>
+            <form class="form-horizontal mt-4" enctype="multipart/form-data" action="/user/sua-user"
+              method="post">
+
+              <div class="form-group">
+                <label for="ten_chi_nhanh">Username</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder=""
+                  value="{{user.username}}" />
+              </div>
+
+              <div class="form-group">
+                <label for="mat_khau">Email</label>
+                <input type="text" id="email" name="email" class="form-control" placeholder="" value="{{user.email}}" />
+              </div>
+
+              <div class="form-group">
+                <label for="re_mat_khau">Phone</label>
+                <input type="text" id="phone" name="phone" class="form-control" placeholder="" value="{{user.phone}}" />
+              </div>
+
+              <div class="form-group">
+                <label for="re_mat_khau">Age</label>
+                <input type="text" id="age" name="age" class="form-control" placeholder="" value="{{user.age}}" />
+              </div>
+
+              <input type="hidden" id="id" name="id" value="{{user._id}}">
+
+
+              <div style="width: 100%; height:100%; display: flex; justify-content: center; align-items: center;">
+                <button type="button" onclick="validateAndSubmit()" class="btn btn-primary"
+                  style="width: 95%">Lưu</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const openMapButton = document.getElementById('openMapButton');
+
+    openMapButton.addEventListener('click', function () {
+      // Show the map when the button is clicked
+      showMap();
+
+      // Open the map in a modal or a custom overlay
+      // You can use a library like Bootstrap Modal or create your custom modal
+      // For simplicity, we'll use the browser's built-in alert
+      alert('Select a location on the map.');
+    });
+  });
+
+
+
+
+  function showLoading() {
+    document.getElementById('loading-circle').style.display = 'flex';
+  }
+
+  function hideLoading() {
+    document.getElementById('loading-circle').style.display = 'none';
+  }
+
+
+  async function validateAndSubmit() {
+    // Validate the form data here
+    showLoading();
+
+    const username = document.getElementById('username').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const age = document.getElementById('age').value;
+    const id = document.getElementById('id').value;
+
+    const missingField = !username ? 'Username' :
+      !email ? 'Email' :
+        !phone ? 'Phone' :
+          !age ? 'Age' :
+            null;
+
+    if (missingField) {
+      const result = await Swal.fire({
+        icon: 'error', // Corrected the icon to 'error'
+        title: 'Oops...',
+        text: `Please enter ${missingField}, it must not be empty.`,
+        allowOutsideClick: false
+      });
+
+      if (result.isConfirmed) {
+        hideLoading();
+        return;
+      }
+    }
+
+    // Show confirmation dialog
+    const confirmationResult = await Swal.fire({
+      title: 'Are you sure you want to edit this user?',
+      showDenyButton: true,
+      confirmButtonText: 'Confirm',
+      denyButtonText: 'Edit',
+    });
+
+
+    if (confirmationResult.isConfirmed) {
+      // Prepare JSON data
+      const data = {
+        username: username,
+        email: email,
+        phone: phone,
+        age: age,
+      };
+      const jsonData = JSON.stringify(data);
+
+      // Submit the form data as JSON
+      try {
+        const response = await fetch(`/update/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: jsonData,
+        });
+
+        if (response.ok) {
+          hideLoading();
+          Swal.fire({
+            icon: 'success',
+            title: 'Saved!',
+            showConfirmButton: false,
+            timer: 3500,
+          });
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 2000); // Delay the reload
+        } else {
+          hideLoading();
+          Swal.fire('Error', 'Duplicate admin name or branch already has an account', 'error');
+        }
+      } catch (error) {
+        hideLoading();
+        console.error(error);
+        Swal.fire('Lỗi', 'Có lỗi xảy ra.', 'error');
+      }
+    } else if (confirmationResult.isDenied) {
+      hideLoading();
+      Swal.fire('Thay đổi của bạn chưa được lưu', '', 'info');
+    } else {
+      hideLoading();
+    }
+  }
+
+
+
+</script>
