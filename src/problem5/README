@@ -6,7 +6,7 @@
 
 First, you need to run npm i to download libary node module
 
-```bash
+
 # using npm
 npm i
 
@@ -16,27 +16,5 @@ yarn
 
 ## Step 2: Open the web and access: localhost:3000
 http://localhost:3000/
-```
-## Step 2: Start your Application
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
 
-### For Android
-
-```bash
-# using npm
-npm run android
-
-# OR using Yarn
-yarn android
-```
-
-### For iOS
-
-```bash
-# using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
