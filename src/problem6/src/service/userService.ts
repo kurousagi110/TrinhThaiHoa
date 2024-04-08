@@ -38,19 +38,21 @@ const register = async (username: string, password: string) => {
     }
 };
 
+// Login
 const login = async (username: string, password: string) => {
     try {
         const user = await UserModel.findOne({ username, password });
         if (!user) {
             return false;
         }
-        const token = await taoToken(username);
+        const token = await createToken(username);
         return { user, token };
     } catch (error) {
         throw error;
     }
 };
 
+// Update the score of a user
 const updateScore = async (username: string, score: number) => {
     try {
         const user = await UserModel.findOne({ username });
@@ -65,8 +67,9 @@ const updateScore = async (username: string, score: number) => {
     }
 }
 
-const taoToken = async (username : string) => {
-    const key = "iloveyou"; // Use the same key as in your AuthenToken middleware
+// Create a token
+const createToken = async (username : string) => {
+    const key = "secret-key"; // Use the same key as in your AuthenToken middleware
     const payload = { username: username };
     const token = jwt.sign(payload, key, { expiresIn: "24d" });
     return token;

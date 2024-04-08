@@ -17,7 +17,7 @@ function AuthenToken(req: Request, res: Response, next: NextFunction) {
         return res.status(401).json({ message: 'Token not found' });
     }
 
-    const key = "iloveyou";
+    const key = "secret-key";
     jwt.verify(token, key, async (err: any, user: any) => {
         if (err) {
             return res.status(401).json({ message: 'Token invalid' });

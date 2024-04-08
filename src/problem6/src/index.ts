@@ -35,7 +35,7 @@ mongoose.connect('mongodb+srv://thaihoa:trinhthaihoa1402@problem5.dnfd7do.mongod
 
 //khai báo thong tin session, cookie
 app.use(session({
-    secret: 'iloveyou',
+    secret: 'secret-key',
     resave: true,
     saveUninitialized: true,
     cookie: { secure: false }
