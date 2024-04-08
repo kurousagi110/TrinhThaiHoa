@@ -5,6 +5,9 @@ import AuthenToken from './middleWare/middleWare';
 
 const router: Router = express.Router();
 
+
+
+
 //get score board
 router.get('/score', async (req: Request, res: Response) => {
     try {
