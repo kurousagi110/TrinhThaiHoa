@@ -43,5 +43,10 @@ use token and update score
 
 I use authorization to secure the API and prevent unauthorized access. Without a token, users won't be able to update their scores.
 
+Additional comments for improvement in the documentation:
+
+* Consider adding a logging mechanism to track score update history. This will help in auditing and detecting any fraudulent activities.
+* Review and enhance the authorization mechanism to ensure it aligns with best practices and provides adequate protection against unauthorized access.
+
 ## Thank for reading !!!
 
