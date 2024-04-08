@@ -13,14 +13,14 @@ router.get('/', async (req: Request, res: Response) => {
     }
 });
 
-// Get user by id
-router.get('/edit/:id', async (req: Request, res: Response) => {
+// go to page update
+router.get('/update/:id', async (req: Request, res: Response) => {
     try {
         const user = await UserService.getUser(req.params.id);
         if (!user) {
             res.status(404).json({ message: 'No user found' });
         }
-        res.render('user/edit', { user });
+        res.render('user/update', { user });
     } catch (error) {
         res.status(500).json({ message: error });
     }

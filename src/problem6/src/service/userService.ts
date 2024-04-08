@@ -2,13 +2,18 @@ import UserModel from "../model/userModel";
 const jwt = require('jsonwebtoken');
 
 
-//getAllUsers
+//get 10 user have highest score
 const getScoreBroad = async () => {
     try {
-        const users = await UserModel.find({ status: 1, limit: 10 });
+        // Find users, sort them by score in descending order, and limit the result to 10 users
+        const users = await UserModel.find().sort({ score: -1 }).limit(10);
+        
+        // If no users are found, return false
         if (users.length === 0) {
             return false;
         }
+        
+        // Return the array of users
         return users;
     } catch (error) {
         throw error;

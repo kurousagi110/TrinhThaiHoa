@@ -1,7 +1,8 @@
 import UserModel from "../model/UserModel";
 
 
-//getAllUsers
+//getAllUsers if status = 1 user is active
+//            if status = 0 user is inactive
 const getAllUsers = async () => {
     try {
         const users = await UserModel.find({ status: 1});
@@ -44,7 +45,7 @@ const addUser = async (username: string, email: string, phone: string, age: numb
     }
 };
 
-//getUser
+//getUser by id
 const getUser = async (id: string) => {
     try {
         const user = await UserModel.findById(id);
@@ -57,7 +58,7 @@ const getUser = async (id: string) => {
     }
 };
 
-//updateUser
+//updateUser by id
 const updateUser = async (id: string, username: string, email: string, phone: string, age: number) => {
     try {
         const user = await UserModel.findById(id);
@@ -76,7 +77,7 @@ const updateUser = async (id: string, username: string, email: string, phone: st
     }
 };
 
-//deleteUser
+//deleteUser inactive user by id with status = 0
 const deleteUser = async (id: string) => {
     try {
         const user = await UserModel.findById(id);
