@@ -1,3 +1,5 @@
+## Introduction: Utilizing Node version 20.11.1 along with the Express.js framework and TypeScript language, this project incorporates several libraries including HBS, JSON Web Token, and Mongoose.
+
 # Diagram to illustrate the flow of execution
 
 
